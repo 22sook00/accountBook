@@ -5,6 +5,7 @@ body {
     "Merriweather Sans", sans-serif, "Rubik", "Maven Pro", "Nanum Gothic";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #515151;
 }
 
 code {
