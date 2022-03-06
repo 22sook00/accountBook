@@ -1,46 +1,20 @@
-# Getting Started with Create React App
+# 월별 지출 관리
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+자취하면서 스멀스멀 새어나가는 돈들
+해당 날짜에 지출 액수를 작성하고 달력에 보여준다.
 
-## Available Scripts
+## 사용한 금액 액수에 따라 달력 색깔이 달라요!
 
-In the project directory, you can run:
+5000 ~ 10,000 : #DFE9F5
+10,000 ~ 50,000 : #90B1DB
+50,000 ~ 100,000 : #3E77B6
+100,000 ~ 200,000 : #003A88
+200,000 ~ : #002A5E
 
-### `npm start`
+### 사용 스택
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- React
+- Typescript
+- Redux toolkit
+- Storybook
+- React-datepicker
