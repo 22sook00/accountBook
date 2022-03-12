@@ -1,27 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { increment } from "../../slices/addFormSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import Buttons from "../../components/Common/Buttons/Buttons";
 import Lists from "../../components/Lists/Lists";
 import DatePickers from "../../components/Common/DatePickers/DatePickers";
+import AddFormModal from "../../components/Forms/AddFormModal/AddFormModal";
 
 const MainPage = () => {
   const dispatch = useDispatch();
 
-  const handleClickAddBtn = () => {
-    dispatch(increment());
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleClickMoveAddForm = () => {
+    setIsOpen(true);
   };
   return (
     <>
       <DatePickers />
+      <Lists />
       <Buttons
         bottom={"bottom"}
         bgcolor="rgb(177, 189, 220)"
-        onclick={handleClickAddBtn}
+        onclick={handleClickMoveAddForm}
         text={"+"}
       />
-      <Lists />
+
+      {isOpen ? <AddFormModal setIsOpen={setIsOpen} /> : <></>}
     </>
   );
 };
