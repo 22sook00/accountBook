@@ -12,6 +12,7 @@ interface Props {
     | "#F8979B";
   text: string;
   bottom?: string;
+  custom?: any;
 }
 
 const Buttons: FC<Props> = ({
@@ -20,13 +21,14 @@ const Buttons: FC<Props> = ({
   bgcolor,
   text,
   bottom,
+  custom,
 }) => {
   const bottonBottom = bottom ? "button-style-bottom" : "";
 
   return (
     <>
       <button
-        style={{ backgroundColor: bgcolor }}
+        style={{ backgroundColor: bgcolor, ...custom }}
         className={[
           "button-style",
           `button-style-${bgcolor?.slice(1)}`,

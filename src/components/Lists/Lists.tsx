@@ -48,7 +48,7 @@ const Lists = () => {
       </div>
       {paymentDatas.map((buying) => {
         return (
-          <article>
+          <article key={buying.id}>
             <div className="payment-list-article-style">
               <p>{buying.createAt}</p>
               <div className="line-style" />
