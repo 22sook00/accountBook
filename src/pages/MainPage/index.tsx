@@ -5,7 +5,8 @@ import { RootState } from "../../store";
 import Buttons from "../../components/Common/Buttons/Buttons";
 import Lists from "../../components/Lists/Lists";
 import DatePickers from "../../components/Common/DatePickers/DatePickers";
-import AddFormModal from "../../components/Forms/AddFormModal/AddFormModal";
+import AddForm from "../../components/Forms/AddForm/AddForm";
+import ModalLayout from "../../components/Common/Modals/ModalLayout";
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,13 @@ const MainPage = () => {
         text={"+"}
       />
 
-      {isOpen ? <AddFormModal setIsOpen={setIsOpen} /> : <></>}
+      {isOpen ? (
+        <ModalLayout title={"추가하기"} setIsOpen={setIsOpen}>
+          <AddForm />
+        </ModalLayout>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
