@@ -3,7 +3,7 @@ import "./buttons.css";
 
 interface Props {
   disabled?: boolean;
-  onclick: any;
+  onclick?: () => void;
   bgcolor?:
     | "#DFE9F5"
     | "rgb(177, 189, 220)"

@@ -1,6 +1,7 @@
 .react-datepicker {
   width: 375px !important;
-  height: 360px !important;
+  padding-bottom: 20px !important;
+  /* height: 360px !important; */
   border: none !important;
   font-family: "Nanum Gothic" !important;
   box-shadow: 0px 1px 15px -3px rgba(0, 0, 0, 0.1),

@@ -24,7 +24,7 @@ const ModalLayout: FC<Props> = ({ setIsOpen, children, title }) => {
             />
           </div>
 
-          <div>{children}</div>
+          {children}
         </div>
       </section>
     </>

@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import addFormReducer from "./slices/addFormSlice";
 
 export const store = configureStore({
-  reducer: { addForm: addFormReducer },
+  reducer: { addOrderForm: addFormReducer },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
