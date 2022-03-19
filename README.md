@@ -15,6 +15,8 @@
 
 - React
 - Typescript
-- Redux toolkit
 - Storybook
+- Redux toolkit
+- Redux persist
+- React-Hook-Form [Compare with Formik]
 - React-datepicker
