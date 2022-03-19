@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { increment } from "../../slices/addFormSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import Buttons from "../../components/Common/Buttons/Buttons";
@@ -29,7 +28,7 @@ const MainPage = () => {
 
       {isOpen ? (
         <ModalLayout title={"추가하기"} setIsOpen={setIsOpen}>
-          <AddForm />
+          <AddForm setIsOpen={setIsOpen} />
         </ModalLayout>
       ) : (
         <></>
