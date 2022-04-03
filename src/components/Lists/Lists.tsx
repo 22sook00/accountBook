@@ -31,13 +31,11 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
 
   useEffect(() => {
     if (showOnlySelectedMonthPrice.length === 0) return;
-    const addAll = showOnlySelectedMonthPrice?.reduce((acc: any, cur: any) => {
-      return (
-        Number(acc.price) * Number(acc.quantity) +
-        Number(cur.price) * Number(cur.quantity)
-      );
-    });
-    setTtlPriceByMonth(+addAll ? addAll : addAll.price * addAll.quantity);
+    const addAll = showOnlySelectedMonthPrice?.reduce(
+      (acc: any, cur: any) => acc + +cur.price * +cur.quantity,
+      0
+    );
+    setTtlPriceByMonth(addAll);
   }, [showOnlySelectedMonthPrice]);
 
   return (
@@ -46,9 +44,9 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
         <h1>{+onlyShowMonth}월 총 지출내역 </h1> <h1>{ttlPriceByMonth}원</h1>
       </div>
       {showOnlySelectedMonthPrice &&
-        showOnlySelectedMonthPrice?.map((buying: IAddItems) => {
+        showOnlySelectedMonthPrice?.map((buying: IAddItems, idx: number) => {
           return (
-            <article key={buying.item}>
+            <article key={idx}>
               <div className="payment-list-article-style">
                 <span>{buying?.orderDate}</span>
                 <span>_{buying?.orderTime}</span>

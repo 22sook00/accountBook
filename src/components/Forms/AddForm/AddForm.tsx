@@ -14,13 +14,12 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import Buttons from "../../Common/Buttons/Buttons";
 import "./addForm.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSubmitOrderForm } from "../../../slices/addFormSlice";
 
 interface Props {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 }
-
 interface ICategoryList {
   id: string;
   value: string;
@@ -39,7 +38,7 @@ const defaultValues = {
   item: "",
   category: "",
   quantity: 0,
-  price: "",
+  price: 0,
   orderDate: new Date(),
   orderTime: new Date(),
   url: "",
@@ -58,7 +57,6 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
 
   const onSubmit: SubmitHandler<IAddItems> = useCallback(
     (data) => {
-      console.log("d", data.orderDate);
       const formData = {
         ...data,
         orderDate: data.orderDate
@@ -125,10 +123,8 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
         <article className="formArticle">
           <label>가격</label>
           <div className="inputWrapper">
-            <input {...register("price", { required: true, maxLength: 20 })} />
-            원
+            <input type="number" {...register("price", { required: true })} />원
             <p className="errorText">
-              {" "}
               {errors.price?.type === "required" && "가격을 작성하세요."}
             </p>
           </div>

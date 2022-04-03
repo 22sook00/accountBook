@@ -13,10 +13,20 @@ export const addFormSlice = createSlice({
     setSubmitOrderForm: (state, action: PayloadAction<any>) => {
       return { ...state, buyItemArr: [...state.buyItemArr, action.payload] };
     },
+    setDeleteItem: (state, action: PayloadAction<any>) => {
+      // console.log("delelel", state, action.payload);
+      // ...state,
+      // cart: state.cart.filter((item) => item.id !== action.payload.id),
+
+      return {
+        ...state,
+        buyItemArr: [...action.payload],
+      };
+    },
   },
 });
 
-export const { setSubmitOrderForm } = addFormSlice.actions;
+export const { setSubmitOrderForm, setDeleteItem } = addFormSlice.actions;
 export const selectOrderedItem = (state: RootState) => state.addOrderForm;
 
 export default addFormSlice.reducer;
