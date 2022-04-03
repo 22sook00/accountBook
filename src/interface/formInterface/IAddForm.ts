@@ -7,5 +7,6 @@ export interface IAddItems {
   quantity: number;
   price: string;
   orderDate: Date | null | string;
-  orderTime: Date | null | string;
+  orderTime?: Date | null;
+  url?: string;
 }

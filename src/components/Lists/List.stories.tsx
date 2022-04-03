@@ -8,5 +8,5 @@ export default {
 } as ComponentMeta<typeof Lists>;
 
 export const ListStyle: ComponentStory<typeof Lists> = () => {
-  return <Lists />;
+  return <Lists selectedMonth={""} />;
 };

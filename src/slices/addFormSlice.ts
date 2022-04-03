@@ -10,11 +10,8 @@ export const addFormSlice = createSlice({
   name: "addOrderForm",
   initialState,
   reducers: {
-    setSubmitOrderForm: (state, action: PayloadAction<IAddForm>) => {
-      return {
-        ...state,
-        ...action.payload,
-      };
+    setSubmitOrderForm: (state, action: PayloadAction<any>) => {
+      return { ...state, buyItemArr: [...state.buyItemArr, action.payload] };
     },
   },
 });

@@ -1,71 +1,64 @@
-import React from "react";
+import moment from "moment";
+import React, { FC, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { IAddForm } from "../../interface/formInterface/IAddForm";
+import { IAddForm, IAddItems } from "../../interface/formInterface/IAddForm";
+import { pickerOnlyMonth } from "../Common/DatePickers/DatePickers";
 import "./lists.css";
 
-const paymentDatas = [
-  {
-    id: 1,
-    createAt: "2022-03-01/20:01pm",
-    type: "necessary",
-    name: "칫솔",
-    quantity: 2,
-    price: 3000,
-    url: "",
-  },
-  {
-    id: 2,
-    createAt: "2022-03-02/10:01pm",
-    type: "food",
-    name: "우유",
-    quantity: 2,
-    price: 3800,
-    url: "",
-  },
-  {
-    id: 3,
-    createAt: "2022-03-03/12:01pm",
-    type: "food",
-    name: "물",
-    quantity: 6,
-    price: 1000,
-    url: "",
-  },
-  {
-    id: 4,
-    createAt: "2022-03-04/20:01pm",
-    type: "item",
-    name: "후라이팬",
-    quantity: 2,
-    price: 23000,
-    url: "",
-  },
-];
+interface IProps {
+  selectedMonth: string;
+  pickerOnlyMonth?: pickerOnlyMonth;
+}
 
-const Lists = () => {
+const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
   const orderList = useSelector(
     (state: { addOrderForm: IAddForm }) => state.addOrderForm.buyItemArr
   );
+  const onlyShowMonth = selectedMonth?.split("-")[1];
+  const [showOnlySelectedMonthPrice, setShowOnlySelectedMonthPrice] =
+    useState<any>([]);
+  const [ttlPriceByMonth, setTtlPriceByMonth] = useState<number>(0);
+
+  useEffect(() => {
+    setShowOnlySelectedMonthPrice(
+      orderList.filter(
+        (data) =>
+          moment(data.orderDate).format("YYYYMM") ===
+          moment(selectedMonth).format("YYYYMM")
+      )
+    );
+  }, [orderList, selectedMonth]);
+
+  useEffect(() => {
+    if (showOnlySelectedMonthPrice.length === 0) return;
+    showOnlySelectedMonthPrice?.reduce((acc: any, cur: any) =>
+      setTtlPriceByMonth(
+        Number(acc.price) * Number(acc.quantity) +
+          Number(cur.price) * Number(cur.quantity)
+      )
+    );
+  }, [showOnlySelectedMonthPrice, setTtlPriceByMonth]);
+
+  console.log(showOnlySelectedMonthPrice, ttlPriceByMonth);
 
   return (
     <section className="payment-list-section-style">
       <div className="ttl-amount-style">
-        <h1>{3}월 총 지출내역 </h1> <h1>10000원</h1>
+        <h1>{+onlyShowMonth}월 총 지출내역 </h1> <h1>{ttlPriceByMonth}원</h1>
       </div>
-      {orderList &&
-        orderList?.map((buying) => {
+      {showOnlySelectedMonthPrice &&
+        showOnlySelectedMonthPrice?.map((buying: IAddItems) => {
           return (
-            <article key={buying.item}>
+            <article key={buying?.item}>
               <div className="payment-list-article-style">
-                <p>
-                  {buying.orderDate}[ {buying.orderTime} ]
-                </p>
+                <span>{buying?.orderDate}</span>
+                <span>_{buying?.orderTime}</span>
                 <div className="line-style" />
                 <div className="flex-style">
                   <h4>
-                    {buying.item} ({buying.quantity}개)
+                    {buying?.item} ({buying.price} x {buying?.quantity})
                   </h4>
-                  <h4>{buying.price}</h4>
+                  <h4>{+buying.price * buying.quantity}</h4>
                 </div>
               </div>
             </article>

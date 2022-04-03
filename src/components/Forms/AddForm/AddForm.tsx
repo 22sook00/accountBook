@@ -6,7 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { IAddForm } from "../../../interface/formInterface/IAddForm";
+import { IAddForm, IAddItems } from "../../../interface/formInterface/IAddForm";
 import ReactDatePicker from "react-datepicker";
 import { addDays } from "date-fns";
 import { ko } from "date-fns/esm/locale";
@@ -14,12 +14,26 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import Buttons from "../../Common/Buttons/Buttons";
 import "./addForm.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSubmitOrderForm } from "../../../slices/addFormSlice";
 
 interface Props {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 }
+
+interface ICategoryList {
+  id: string;
+  value: string;
+  title: string;
+}
+
+const CategoryList = [
+  { id: "field-Food", value: "food", title: "식비" },
+  { id: "field-Necessity", value: "Necessity", title: "생필품" },
+  { id: "field-Shopping", value: "Shopping", title: "옷/악세서리 쇼핑" },
+  { id: "field-Transportaion", value: "Transportaion", title: "교통비" },
+  { id: "field-ETC", value: "ETC", title: "그 외" },
+];
 
 const defaultValues = {
   item: "",
@@ -28,46 +42,38 @@ const defaultValues = {
   price: "",
   orderDate: new Date(),
   orderTime: new Date(),
+  url: "",
 };
 const AddForm: FC<Props> = ({ setIsOpen }) => {
   const dispatch = useDispatch();
   const {
     register,
+    watch,
     formState: { errors },
     handleSubmit,
     control,
     reset,
   } = useForm<any>({ defaultValues });
+  const { category } = watch();
 
-  const [selectedDate, setSelectedDate] = useState<string>("");
-  const [selectedTime, setSelectedTime] = useState<string>("");
-  const [formData, setFormData] = useState<any>({});
-
-  const handleChangeDate = (e: Date | null) => {
-    setSelectedDate(moment(e).format("YYYY-MM-DD"));
-  };
-  const handleChangeTime = (e: Date | null) => {
-    setSelectedTime(moment(e).format("HH:MM A"));
-  };
-
-  const onSubmit: SubmitHandler<IAddForm> = useCallback(
+  const onSubmit: SubmitHandler<IAddItems> = useCallback(
     (data) => {
-      setFormData({
+      console.log("d", data.orderDate);
+      const formData = {
         ...data,
-        orderDate: selectedDate,
-        orderTime: selectedTime,
-      });
+        orderDate: data.orderDate
+          ? moment(data.orderDate).format("YYYY-MM-DD")
+          : moment().format("YYYY-MM-DD"),
+        orderTime: data.orderTime
+          ? moment(data.orderTime).format("HH:MM A")
+          : moment().format("HH:MM A"),
+      };
 
+      dispatch(setSubmitOrderForm(formData));
       setIsOpen(false);
     },
-    [selectedDate, selectedTime, setIsOpen]
+    [dispatch, setIsOpen]
   );
-  useEffect(() => {
-    console.log("formData?", formData);
-    if (formData) {
-      dispatch(setSubmitOrderForm({ buyItemArr: formData }));
-    }
-  }, [dispatch, formData]);
 
   return (
     <>
@@ -84,57 +90,22 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
         </article>
         <article className="formArticle">
           <label>카테고리</label>
-          <h5>
-            <input
-              {...register("category")}
-              type="radio"
-              name="category"
-              value="Food"
-              id="field-Food"
-              checked
-            />
-            식비
-          </h5>
-          <h5>
-            <input
-              {...register("category")}
-              type="radio"
-              name="category"
-              value="Necessity"
-              id="field-Necessity"
-            />
-            생필품
-          </h5>
-          <h5>
-            <input
-              {...register("category")}
-              type="radio"
-              name="category"
-              value="Shopping"
-              id="field-Shopping"
-            />
-            옷/악세서리 쇼핑
-          </h5>
-          <h5>
-            <input
-              {...register("category")}
-              type="radio"
-              name="category"
-              value="Transportaion"
-              id="field-Transportaion"
-            />
-            교통비
-          </h5>
-          <h5>
-            <input
-              {...register("category")}
-              type="radio"
-              name="category"
-              value="ETC"
-              id="field-ETC"
-            />
-            그 외
-          </h5>
+
+          {CategoryList.map((list: ICategoryList, i: number) => {
+            return (
+              <h5 key={list.id}>
+                <input
+                  {...register("category")}
+                  type="radio"
+                  name="category"
+                  value={list.value}
+                  id={list.id}
+                  checked={category ? category === list.value : i === 0}
+                />
+                {list.title}
+              </h5>
+            );
+          })}
         </article>
 
         <article className="formArticle">
@@ -167,16 +138,14 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
           <label>구매날짜</label>
           <Controller
             control={control}
-            name="orderDate"
+            name={"orderDate"}
             render={({ field }) => (
               <div className="inputWrapper">
                 <ReactDatePicker
                   className="input"
                   locale={ko}
                   placeholderText="Select date"
-                  onChange={(e) => field.onChange(e, handleChangeDate(e))}
-                  // onChange={(e) => handleChangeDate(e, field)}
-                  // selected={selectDateValue}
+                  onChange={(e) => field.onChange(e)}
                   selected={field.value}
                   maxDate={addDays(new Date(), 0)}
                 />{" "}
@@ -191,20 +160,30 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
           <Controller
             control={control}
             name="orderTime"
-            render={({ field }) => (
-              <div className="inputWrapper">
-                <ReactDatePicker
-                  selected={field.value}
-                  onChange={(e) => field.onChange(e, handleChangeTime(e))}
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeIntervals={60}
-                  timeCaption="Time"
-                  dateFormat="h:mm aa"
-                />
-              </div>
-            )}
+            render={({ field }) => {
+              return (
+                <div className="inputWrapper">
+                  <ReactDatePicker
+                    selected={field.value}
+                    onChange={(e) => field.onChange(e)}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={60}
+                    timeCaption="Time"
+                    dateFormat="h:mm aa"
+                  />
+                </div>
+              );
+            }}
           />
+        </article>
+
+        {/* url */}
+        <article className="formArticle">
+          <label>URL</label>
+          <div className="inputWrapper">
+            <input {...register("url", { required: false })} />
+          </div>
         </article>
 
         <article style={{ textAlign: "right" }}>

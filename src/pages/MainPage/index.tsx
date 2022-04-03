@@ -10,6 +10,8 @@ import ModalLayout from "../../components/Common/Modals/ModalLayout";
 const MainPage = () => {
   const dispatch = useDispatch();
 
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleClickMoveAddForm = () => {
@@ -17,8 +19,13 @@ const MainPage = () => {
   };
   return (
     <>
-      <DatePickers />
-      <Lists />
+      <DatePickers
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        setSelectedMonth={setSelectedMonth}
+        selectedMonth={selectedMonth}
+      />
+      <Lists selectedMonth={selectedMonth} />
       <Buttons
         bottom={"bottom"}
         bgcolor="rgb(177, 189, 220)"
