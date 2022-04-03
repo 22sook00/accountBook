@@ -1,4 +1,7 @@
 export interface IAddForm {
+  buyItemArr: Array<IAddItems>;
+}
+export interface IAddItems {
   item: string;
   category: string;
   quantity: number;

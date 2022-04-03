@@ -3,19 +3,14 @@ import { IAddForm } from "../interface/formInterface/IAddForm";
 import { RootState } from "../store";
 
 const initialState: IAddForm = {
-  item: "",
-  category: "",
-  quantity: 0,
-  price: "",
-  orderDate: "",
-  orderTime: "",
+  buyItemArr: [],
 };
 
 export const addFormSlice = createSlice({
   name: "addOrderForm",
   initialState,
   reducers: {
-    setSubmitOrderForm: (state, action: PayloadAction<any>) => {
+    setSubmitOrderForm: (state, action: PayloadAction<IAddForm>) => {
       return {
         ...state,
         ...action.payload,

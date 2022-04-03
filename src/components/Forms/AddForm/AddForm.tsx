@@ -65,7 +65,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
   useEffect(() => {
     console.log("formData?", formData);
     if (formData) {
-      dispatch(setSubmitOrderForm(formData));
+      dispatch(setSubmitOrderForm({ buyItemArr: formData }));
     }
   }, [dispatch, formData]);
 
