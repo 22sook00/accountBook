@@ -20,23 +20,24 @@ import { setSubmitOrderForm } from "../../../slices/addFormSlice";
 interface Props {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 }
-interface ICategoryList {
+export interface ICategoryList {
   id: string;
   value: string;
   title: string;
 }
 
-const CategoryList = [
+export const CategoryList = [
   { id: "field-Food", value: "food", title: "식비" },
   { id: "field-Necessity", value: "Necessity", title: "생필품" },
-  { id: "field-Shopping", value: "Shopping", title: "옷/악세서리 쇼핑" },
+  { id: "field-Shopping", value: "Shopping", title: "쇼핑" },
   { id: "field-Transportaion", value: "Transportaion", title: "교통비" },
   { id: "field-ETC", value: "ETC", title: "그 외" },
 ];
 
-const defaultValues = {
+export const defaultValues = {
   item: "",
   category: "",
+  isDating: false,
   quantity: 0,
   price: 0,
   orderDate: new Date(),
@@ -105,6 +106,14 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
             );
           })}
         </article>
+        <article className="formArticle">
+          <label>데이트 여부</label>
+          <input {...register("isDating")} type="checkbox" />
+          <p className="errorText">
+            {errors.isDating?.type === "required" &&
+              "구매한 물건 이름을 작성하세요."}
+          </p>
+        </article>
 
         <article className="formArticle">
           <label>수량</label>
@@ -152,7 +161,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
 
         {/* time */}
         <article className="formArticle">
-          <label>구매시간 (Option)</label>
+          <label>구매시간 (Optional)</label>
           <Controller
             control={control}
             name="orderTime"
@@ -176,7 +185,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
 
         {/* url */}
         <article className="formArticle">
-          <label>URL</label>
+          <label>URL (Optional)</label>
           <div className="inputWrapper">
             <input {...register("url", { required: false })} />
           </div>
