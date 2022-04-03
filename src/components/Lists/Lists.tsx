@@ -31,15 +31,14 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
 
   useEffect(() => {
     if (showOnlySelectedMonthPrice.length === 0) return;
-    showOnlySelectedMonthPrice?.reduce((acc: any, cur: any) =>
-      setTtlPriceByMonth(
+    const addAll = showOnlySelectedMonthPrice?.reduce((acc: any, cur: any) => {
+      return (
         Number(acc.price) * Number(acc.quantity) +
-          Number(cur.price) * Number(cur.quantity)
-      )
-    );
-  }, [showOnlySelectedMonthPrice, setTtlPriceByMonth]);
-
-  console.log(showOnlySelectedMonthPrice, ttlPriceByMonth);
+        Number(cur.price) * Number(cur.quantity)
+      );
+    });
+    setTtlPriceByMonth(+addAll ? addAll : addAll.price * addAll.quantity);
+  }, [showOnlySelectedMonthPrice]);
 
   return (
     <section className="payment-list-section-style">
@@ -49,14 +48,14 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
       {showOnlySelectedMonthPrice &&
         showOnlySelectedMonthPrice?.map((buying: IAddItems) => {
           return (
-            <article key={buying?.item}>
+            <article key={buying.item}>
               <div className="payment-list-article-style">
                 <span>{buying?.orderDate}</span>
                 <span>_{buying?.orderTime}</span>
                 <div className="line-style" />
                 <div className="flex-style">
                   <h4>
-                    {buying?.item} ({buying.price} x {buying?.quantity})
+                    {buying.item} ({buying.price} x {buying.quantity})
                   </h4>
                   <h4>{+buying.price * buying.quantity}</h4>
                 </div>
