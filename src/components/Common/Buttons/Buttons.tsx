@@ -29,11 +29,16 @@ const Buttons: FC<Props> = ({
     <>
       <button
         style={{ backgroundColor: bgcolor, ...custom }}
-        className={[
-          "button-style",
-          `button-style-${bgcolor?.slice(1)}`,
-          bottonBottom,
-        ].join(" ")}
+        className={
+          // custom
+          //   ? "custom-style"
+          //   :
+          [
+            "button-style",
+            `button-style-${bgcolor?.slice(1)}`,
+            bottonBottom,
+          ].join(" ")
+        }
         onClick={onclick}
         disabled={disabled ? true : false}
       >
