@@ -14,8 +14,8 @@ import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import Buttons from "../../Common/Buttons/Buttons";
 import "./addForm.css";
-import { useDispatch } from "react-redux";
 import { setSubmitOrderForm } from "../../../slices/addFormSlice";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 
 interface Props {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -35,6 +35,7 @@ export const CategoryList = [
 ];
 
 export const defaultValues = {
+  idx: 0,
   item: "",
   category: "",
   isDating: false,
@@ -45,7 +46,10 @@ export const defaultValues = {
   url: "",
 };
 const AddForm: FC<Props> = ({ setIsOpen }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const selectItemIdx = useAppSelector(
+    (state: any) => state.addOrderForm.buyItemArr
+  );
   const {
     register,
     watch,
@@ -60,6 +64,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
     (data) => {
       const formData = {
         ...data,
+        idx: selectItemIdx.length,
         orderDate: data.orderDate
           ? moment(data.orderDate).format("YYYY-MM-DD")
           : moment().format("YYYY-MM-DD"),
@@ -71,7 +76,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
       dispatch(setSubmitOrderForm(formData));
       setIsOpen(false);
     },
-    [dispatch, setIsOpen]
+    [dispatch, selectItemIdx.length, setIsOpen]
   );
 
   return (
