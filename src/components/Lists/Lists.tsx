@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { IAddForm, IAddItems } from "../../interface/formInterface/IAddForm";
@@ -26,6 +26,7 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
   );
   const onlyShowMonth = selectedMonth?.split("-")[1];
 
+  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [ttlPriceByMonth, setTtlPriceByMonth] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>([]);
@@ -62,10 +63,14 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
     );
   };
 
+  const handleDropdown = useCallback(() => {
+    setIsOpenDropdown(!isOpenDropdown);
+  }, [isOpenDropdown]);
+
   return (
     <section className="payment-list-section-style">
       <div className="ttl-amount-style">
-        <h1>💰{+onlyShowMonth}월 총 지출내역 </h1>{" "}
+        <h1 onClick={handleDropdown}>💰{+onlyShowMonth}월 총 지출내역 🔽</h1>
         <h1>{formatPriceNumber(ttlPriceByMonth)}원</h1>
       </div>
       {orderListByMonth &&
