@@ -1,9 +1,10 @@
 import moment from "moment";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { IAddForm, IAddItems } from "../../interface/formInterface/IAddForm";
 import { setDeleteItem, setFormListByMonth } from "../../slices/addFormSlice";
+import { formatPriceNumber } from "../../utils/numberFormatter";
 import Buttons from "../Common/Buttons/Buttons";
 import { pickerOnlyMonth } from "../Common/DatePickers/DatePickers";
 import ModalLayout from "../Common/Modals/ModalLayout";
@@ -25,6 +26,7 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
   );
   const onlyShowMonth = selectedMonth?.split("-")[1];
 
+  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
   const [ttlPriceByMonth, setTtlPriceByMonth] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>([]);
@@ -56,16 +58,20 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
   };
 
   const handleDeleteClick = (idx: number, buying: any) => {
-    console.log({ idx, uuid: `${buying.orderDate}-${buying.item}` });
     dispatch(
       setDeleteItem({ idx, uuid: `${buying.orderDate}-${buying.item}` })
     );
   };
 
+  const handleDropdown = useCallback(() => {
+    setIsOpenDropdown(!isOpenDropdown);
+  }, [isOpenDropdown]);
+
   return (
     <section className="payment-list-section-style">
       <div className="ttl-amount-style">
-        <h1>💰{+onlyShowMonth}월 총 지출내역 </h1> <h1>{ttlPriceByMonth}원</h1>
+        <h1 onClick={handleDropdown}>💰{+onlyShowMonth}월 총 지출내역 🔽</h1>
+        <h1>{formatPriceNumber(ttlPriceByMonth)}원</h1>
       </div>
       {orderListByMonth &&
         orderListByMonth?.map((buying: IAddItems, idx: number) => {
@@ -73,7 +79,7 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
             <article key={idx}>
               <div className="payment-list-article-style">
                 <span>{buying?.orderDate}</span>
-                <span>_{buying?.orderTime}</span>
+                <span className="order-time">_{buying?.orderTime}</span>
                 <Buttons
                   onclick={() => handleDeleteClick(idx, buying)}
                   text={"삭제"}
@@ -89,7 +95,9 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
                   onClick={() => handleOpenDetailModal(idx)}
                 >
                   <h4>{buying.item}</h4>
-                  <h4>{+buying.price * buying.quantity}원</h4>
+                  <h4>
+                    {formatPriceNumber(+buying.price * buying.quantity)}원
+                  </h4>
                 </div>
               </div>
             </article>
