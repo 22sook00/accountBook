@@ -13,6 +13,9 @@
   justify-content: space-between;
   padding: 10px 0;
 }
+.order-time {
+  margin-right: 8px;
+}
 h1 {
   font-weight: 700;
   font-size: 20px;
