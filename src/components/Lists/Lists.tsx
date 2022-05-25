@@ -70,7 +70,17 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
   return (
     <section className="payment-list-section-style">
       <div className="ttl-amount-style">
-        <h1 onClick={handleDropdown}>💰{+onlyShowMonth}월 총 지출내역 🔽</h1>
+        <h1 onClick={handleDropdown}>
+          💰{+onlyShowMonth}월 총 지출내역{" "}
+          <button
+            onClick={() =>
+              console.log("dropdown later due to checking date fee")
+            }
+            className="cursor-pointer"
+          >
+            🔽
+          </button>
+        </h1>
         <h1 className="">{formatPriceNumber(ttlPriceByMonth)}원</h1>
       </div>
       {orderListByMonth &&
