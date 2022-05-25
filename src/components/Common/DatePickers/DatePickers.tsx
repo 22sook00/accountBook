@@ -9,7 +9,7 @@ import moment from "moment";
 
 export interface IPickerProps {
   bgcolor?: string;
-  selectedDate: Date | null;
+  selectedDate: Date | null | any;
   setSelectedDate: React.Dispatch<SetStateAction<Date | null>>;
 
   selectedMonth: string;
@@ -39,6 +39,7 @@ const DatePickers: FC<IPickerProps> = ({
           const setMonth = moment(monthDate).format("YYYY-MM");
           return (
             <div>
+              <></>
               <button
                 aria-label="Previous Month"
                 className={
@@ -55,11 +56,13 @@ const DatePickers: FC<IPickerProps> = ({
                 </span>
               </button>
               <span className="react-datepicker__current-month">
-                {monthDate.toLocaleString("ko-KR", {
-                  month: "long",
-                  year: "numeric",
-                })}
-                {setSelectedMonth(setMonth)}
+                <>
+                  {monthDate.toLocaleString("ko-KR", {
+                    month: "long",
+                    year: "numeric",
+                  })}
+                  {setSelectedMonth(setMonth)}
+                </>
               </span>
               <button
                 aria-label="Next Month"
