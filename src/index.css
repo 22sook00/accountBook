@@ -26,3 +26,10 @@ p {
 section {
   width: 100%;
 }
+input:active,
+input:focus {
+  outline: none;
+  background: rgba(209, 209, 209, 0.2);
+  border-radius: 5px;
+  transition: all 0.3s;
+}
