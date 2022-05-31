@@ -9,6 +9,14 @@ body {
     "Helvetica Neue", "Merriweather Sans", sans-serif, "Rubik", "Maven Pro";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch !important;
+  -ms-overflow-style: none !important;
+  scroll-behavior: smooth !important;
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
 }
 
 code {
@@ -26,6 +34,8 @@ p {
 section {
   width: 100%;
 }
+textarea:active,
+textarea:focus,
 input:active,
 input:focus {
   outline: none;
