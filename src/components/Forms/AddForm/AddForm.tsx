@@ -196,9 +196,24 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
           </div>
         </article>
 
-        <article style={{ textAlign: "right" }}>
-          <Buttons text="추가" bgcolor="#3E77B6" />
-        </article>
+        <div className="grid grid-cols-3 gap-3">
+          <div className=" col-span-1">
+            <Buttons
+              width="w-full"
+              size="small"
+              text="Reset"
+              lineColor="primary-default"
+            />
+          </div>
+          <div className="col-span-2">
+            <Buttons
+              width="w-full"
+              size="small"
+              text="Submit"
+              bgcolor="primary-default"
+            />
+          </div>
+        </div>
       </form>
     </>
   );

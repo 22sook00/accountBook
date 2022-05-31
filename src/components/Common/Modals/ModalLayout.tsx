@@ -18,7 +18,6 @@ const ModalLayout: FC<Props> = ({ setIsOpen, children, title }) => {
             <h3>{title}</h3>
             <Buttons
               custom={{ padding: "0 10px 4px" }}
-              bgcolor="#F8979B"
               onclick={handleCloseBtn}
               text={"x"}
             />

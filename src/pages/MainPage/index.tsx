@@ -26,12 +26,7 @@ const MainPage = () => {
         selectedMonth={selectedMonth}
       />
       <Lists selectedMonth={selectedMonth} />
-      <Buttons
-        bottom={"bottom"}
-        bgcolor="rgb(177, 189, 220)"
-        onclick={handleClickMoveAddForm}
-        text={"+"}
-      />
+      <Buttons bottom={"bottom"} onclick={handleClickMoveAddForm} text={"+"} />
 
       {isOpen ? (
         <ModalLayout title={"추가하기"} setIsOpen={setIsOpen}>

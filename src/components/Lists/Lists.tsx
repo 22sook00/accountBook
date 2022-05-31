@@ -93,7 +93,7 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
                 <Buttons
                   onclick={() => handleDeleteClick(idx, buying)}
                   text={"삭제"}
-                  bgcolor={"#F8979B"}
+                  lineColor={"primary-default"}
                   custom={{
                     fontSize: "12px",
                     padding: "4px 8px",
