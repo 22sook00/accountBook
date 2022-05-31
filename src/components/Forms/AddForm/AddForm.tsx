@@ -17,6 +17,7 @@ import "./addForm.css";
 import { setSubmitOrderForm } from "../../../slices/addFormSlice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 import { DevTool } from "@hookform/devtools";
+import { CheckCircleIcon } from "@heroicons/react/outline";
 
 interface Props {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -38,7 +39,7 @@ export const CategoryList = [
 export const defaultValues = {
   idx: 0,
   item: "",
-  price: 0,
+  price: "",
   category: "",
   isDating: false,
   orderDate: new Date(),
@@ -57,9 +58,9 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
     handleSubmit,
     control,
     reset,
-    getValues,
+    setValue,
   } = useForm<any>({ defaultValues });
-  const { category } = watch();
+  const { category, isDating } = watch();
 
   const onSubmit: SubmitHandler<IAddItems> = useCallback(
     (data) => {
@@ -81,47 +82,64 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
   );
 
   const handleSelectCategory = useCallback(
-    (value: any, onChange: (value: any) => void) => {
+    (value: string, onChange: (value: string) => void) => {
       onChange(value);
     },
     []
   );
+  useEffect(() => {
+    setValue("isDating", false);
+  }, []);
+  const handleSelectDateStatus = useCallback(
+    (value: boolean, onChange: (value: boolean) => void) => {
+      onChange(value);
+    },
+    []
+  );
+  console.log(isDating);
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="my-8 grid grid-cols-1 gap-3">
           <section className="h-fit flex items-center ">
-            <div className="h-fit flex items-center gap-1">
+            <div className="w-[60px] h-fit flex items-center gap-1">
               <label>품명</label>
               <span className="w-2 h-2 rounded-[50%] bg-gradient-to-r  from-red-800 to-error-primary" />
             </div>
             <input
-              className={`w-[80%] border-b  ml-3 ${
-                errors.item ? "border-primary-default" : "border-line-default"
+              autoComplete="off"
+              className={`w-full border-b  ml-3 text-text-light ${
+                errors.item
+                  ? "border-b-2 border-primary-default"
+                  : "border-line-default"
               }`}
               {...register("item", { required: true, maxLength: 20 })}
             />
           </section>
 
           <section className="h-fit flex items-center ">
-            <div className="h-fit flex items-center gap-1">
+            <div className="w-[60px] h-fit flex items-center gap-1">
               <label>비용</label>
               <span className="w-2 h-2 rounded-[50%] bg-gradient-to-r  from-red-800 to-error-primary" />
             </div>
             <input
               step={100}
               type="number"
-              className={`w-[80%] border-b  ml-3 ${
-                errors.item ? "border-primary-default" : "border-line-default"
+              className={`w-full border-b  ml-3 ${
+                errors.price
+                  ? "border-b-2 border-primary-default"
+                  : "border-line-default"
               }`}
               {...register("price", { required: true })}
             />
-            <p className="ml-[-20px] lg:ml-[-50px] text-sm">원</p>
+            <p className="ml-[-20px] lg:ml-[-50px] text-sm text-text-light">
+              원
+            </p>
           </section>
 
           <section>
-            <div className="h-fit flex items-center gap-1">
+            <div className=" h-fit flex items-center gap-1">
               <label>카테고리</label>
               <span className="w-2 h-2 rounded-[50%] bg-gradient-to-r  from-red-800 to-error-primary" />
             </div>
@@ -144,7 +162,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
                           <div
                             className={`${
                               category === list.value
-                                ? "border border-solid border-primary-default text-secondary-dark py-[5px] px-[9px] "
+                                ? "border border-solid border-primary-default text-secondary-dark font-[600] py-[5px] px-[9px] "
                                 : "border-2 border-dashed py-1 px-2 "
                             }cursor-pointer rounded-md  text-xs`}
                           >
@@ -160,22 +178,86 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
           </section>
 
           <section>
-            <label>데이트 여부</label>
-            <input {...register("isDating")} type="checkbox" />
-            <p className="text-xs text-error-primary">
-              {errors.isDating?.type === "required" &&
-                "구매한 물건 이름을 작성하세요."}
-            </p>
+            <div className="h-fit flex items-center gap-1">
+              <label>데이트</label>
+              <span className="w-2 h-2 rounded-[50%] bg-gradient-to-r  from-red-800 to-error-primary" />
+            </div>
+
+            <Controller
+              control={control}
+              name={"isDating"}
+              render={({ field: { onChange } }) => {
+                return (
+                  <ul className="grid grid-cols-2 mt-2">
+                    <li
+                      className="cursor-pointer flex h-fit items-center gap-2"
+                      onClick={() => {
+                        handleSelectDateStatus(true, onChange);
+                      }}
+                    >
+                      <CheckCircleIcon
+                        className={`${
+                          !isDating
+                            ? "text-text-light"
+                            : " text-primary-default"
+                        } w-5 h-5`}
+                      />
+                      <p
+                        className={`${
+                          !isDating
+                            ? "text-text-primary"
+                            : " text-primary-default font-[600] "
+                        } text-sm `}
+                      >
+                        YES
+                      </p>
+                    </li>
+                    <li
+                      className="cursor-pointer flex h-fit items-center gap-2"
+                      onClick={() => {
+                        handleSelectDateStatus(false, onChange);
+                      }}
+                    >
+                      <CheckCircleIcon
+                        className={`${
+                          isDating
+                            ? "text-text-light"
+                            : " text-primary-default "
+                        } w-5 h-5`}
+                      />
+                      <p
+                        className={`${
+                          isDating
+                            ? "text-text-primary"
+                            : " text-primary-default font-[600] "
+                        } text-sm`}
+                      >
+                        NO
+                      </p>
+                    </li>
+                  </ul>
+                );
+              }}
+            />
           </section>
 
-          <section>
-            <label>구매날짜</label>
+          <section className="h-fit flex items-center ">
+            <div className="w-[60px] h-fit flex items-center gap-1">
+              <label>날짜</label>
+              <span className="w-2 h-2 rounded-[50%] bg-gradient-to-r  from-red-800 to-error-primary" />
+            </div>
             <Controller
               control={control}
               name={"orderDate"}
               rules={{ required: "구매 날짜를 선택 해 주세요." }}
               render={({ field }) => (
-                <div className="inputWrapper">
+                <div
+                  className={`w-full border-b  ml-3 text-text-light ${
+                    errors.orderDate
+                      ? "border-b-2 border-primary-default"
+                      : "border-line-default"
+                  }`}
+                >
                   <ReactDatePicker
                     className="input"
                     locale={ko}
@@ -190,14 +272,16 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
           </section>
 
           {/* time */}
-          <section>
-            <label>구매시간 (Optional)</label>
+          <section className="h-fit flex items-center ">
+            <div className="w-[60px]">
+              <label>시간</label>
+            </div>
             <Controller
               control={control}
               name="orderTime"
               render={({ field }) => {
                 return (
-                  <div>
+                  <div className="border-line-default w-full border-b  ml-3 text-text-light">
                     <ReactDatePicker
                       selected={field.value}
                       onChange={(e) => field.onChange(e)}
@@ -218,13 +302,13 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
             <label>기타</label>
             <div className="w-full mt-2 h-[80px]">
               <textarea
-                className="w-full h-full rounded-lg border-2 border-dashed border-line-dark"
+                className="resize-none w-full h-full rounded-lg border-2 border-dashed border-line-default"
                 {...register("memo", { required: false })}
               />
             </div>
           </section>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-3 mt-4">
             <div className=" col-span-1">
               <Buttons
                 type={"reset"}
@@ -232,6 +316,9 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
                 size="small"
                 text="Reset"
                 lineColor="primary-default"
+                onclick={() => {
+                  reset({ ...defaultValues });
+                }}
               />
             </div>
             <div className="col-span-2">

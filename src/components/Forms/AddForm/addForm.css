@@ -27,8 +27,9 @@ h5 {
   > input {
   width: 200px;
 }
-input {
-  padding: 10px 6px;
+input,
+textarea {
+  padding: 10px 8px;
 }
 
 .errorText {
@@ -44,4 +45,19 @@ input {
 }
 .react-datepicker--time-only {
   width: fit-content !important;
+}
+
+.rowScroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+  &:hover {
+    display: none !important;
+  }
 }

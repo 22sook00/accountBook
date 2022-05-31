@@ -64,3 +64,15 @@
     font-weight: 500;
   }
 }
+
+.rowScroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
