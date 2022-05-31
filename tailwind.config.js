@@ -10,23 +10,33 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				"primary-default": "#2277DC",
-				"secondary-dark": "#1A62B8",
+				"primary-default": "#21B599",
+				"secondary-dark": "#0CA789",
 				"primary-tint": "#E9F1FC",
-				"primary-bg": "#E5E5E5",
-				"tint-bg": "#f7f7f7",
+				"line-default":'#E6E6E6',
+				"line-dark":'#808080',
+
 				"text-primary": "#515151",
 				"text-dark": "#444444",
 				"text-light": "#8b8b8b",
 				"text-tint": "#d1d1d1",
-				"text-line": "#dddddd",
-				"circle-green": "#00B507",
-				"circle-red": "#F8979b",
-				"tag-yellow": "#FFE792",
-				"error-primary": "#E74346",
+
+				"tag-yellow": "#FAC710",
+				"tag-light-yellow": "#FFF446",
+
+				"tag-skyblue": "#12CDD4",
+				"tag-blue": "#70B9F0",
+				"tag-pink": "#FF6DB1",
+
+				"error-primary": "#F06549",
+
+				"primary-bg": "#E5E5E5",
+				"tint-bg": "#f7f7f7",
 				"hover-gray-bg": "rgba(209, 209, 209, 0.2)",
-				"bottom-shadow": "rgba(0, 0, 0, 0.05)",
 				"modal-bg": "rgba(0, 0, 0, 0.67)",
+
+				
+				"bottom-shadow": "rgba(0, 0, 0, 0.05)",
 				"item-hover": "#EEEEEE",
 			},
 			boxShadow: {

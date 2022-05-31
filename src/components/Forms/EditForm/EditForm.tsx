@@ -14,7 +14,7 @@ const EditForm: FC<Props> = ({}) => {
   return (
     <section className="formWrapper">
       <article style={{ textAlign: "right" }}>
-        <Buttons text="수정하기" bgcolor="#3E77B6" />
+        <Buttons text="수정하기" bgcolor="primary-default" />
       </article>
     </section>
   );

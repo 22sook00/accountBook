@@ -93,7 +93,7 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
                 <Buttons
                   onclick={() => handleDeleteClick(idx, buying)}
                   text={"삭제"}
-                  bgcolor={"#F8979B"}
+                  lineColor={"primary-default"}
                   custom={{
                     fontSize: "12px",
                     padding: "4px 8px",
@@ -115,7 +115,11 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
         })}
 
       {isOpen && (
-        <ModalLayout title="구매 상세정보" setIsOpen={setIsOpen}>
+        <ModalLayout
+          title="구매 상세정보"
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        >
           <ViewDetail selectedItem={selectedItem} />
         </ModalLayout>
       )}

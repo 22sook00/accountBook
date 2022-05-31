@@ -4,41 +4,50 @@ import "./buttons.css";
 interface Props {
   disabled?: boolean;
   onclick?: () => void;
-  bgcolor?:
-    | "#DFE9F5"
-    | "rgb(177, 189, 220)"
-    | "#3E77B6"
-    | "#003A88"
-    | "#F8979B";
+  size?: "small" | "medium" | "large";
+  bgcolor?: "primary-default" | "secondary-dark" | "error-primary";
+  lineColor?: "primary-default" | "secondary-dark" | "line-default";
   text: string;
   bottom?: string;
   custom?: any;
+  width?: string;
 }
 
 const Buttons: FC<Props> = ({
   disabled = false,
   onclick,
+  size,
   bgcolor,
+  lineColor,
   text,
   bottom,
   custom,
+  width,
 }) => {
-  const bottonBottom = bottom ? "button-style-bottom" : "";
-
+  const button_size =
+    size === "small"
+      ? ["text-base", "h-[40px] px-6", "rounded-sm"]
+      : size === "medium"
+      ? ["text-base", "h-[51px] px-8", "rounded-[5px]"]
+      : size === "large"
+      ? ["text-base", "h-[59px] px-9", "rounded-[5px]"]
+      : ["text-base", " w-full py-[16px] text-center", "rounded-[5px]"];
   return (
     <>
       <button
-        style={{ backgroundColor: bgcolor, ...custom }}
-        className={
-          // custom
-          //   ? "custom-style"
-          //   :
-          [
-            "button-style",
-            `button-style-${bgcolor?.slice(1)}`,
-            bottonBottom,
-          ].join(" ")
+        className={`
+        ${button_size[0]} ${button_size[2]} 
+				${button_size[1]}
+        ${width && width}
+        ${
+          bgcolor
+            ? ` bg-${bgcolor} hover:bg-secondary-dark text-white`
+            : "bg-white"
         }
+        ${lineColor && `border border-${lineColor} text-secondary-dark`}
+        transition
+        rounded-lg
+        `}
         onClick={onclick}
         disabled={disabled ? true : false}
       >

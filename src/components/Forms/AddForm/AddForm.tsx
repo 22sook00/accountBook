@@ -43,7 +43,7 @@ export const defaultValues = {
   price: 0,
   orderDate: new Date(),
   orderTime: new Date(),
-  url: "",
+  memo: "",
 };
 const AddForm: FC<Props> = ({ setIsOpen }) => {
   const dispatch = useAppDispatch();
@@ -81,124 +81,147 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="formWrapper">
-        <article className="formArticle">
-          <label>품목</label>
-          <div className="inputWrapper">
-            <input {...register("item", { required: true, maxLength: 20 })} />
-            <p className="errorText">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="my-8 grid grid-cols-1 gap-6">
+          <section className="flex ">
+            <label>품명</label>
+            <input
+              className="w-full border-none"
+              {...register("item", { required: true, maxLength: 20 })}
+            />
+            <p className="text-xs text-error-primary">
               {errors.item?.type === "required" &&
                 "구매한 물건 이름을 작성하세요."}
             </p>
-          </div>
-        </article>
-        <article className="formArticle">
-          <label>카테고리</label>
+          </section>
+          <section>
+            <label>카테고리</label>
 
-          {CategoryList.map((list: ICategoryList, i: number) => {
-            return (
-              <h5 key={list.id}>
-                <input
-                  {...register("category")}
-                  type="radio"
-                  name="category"
-                  value={list.value}
-                  id={list.id}
-                  checked={category ? category === list.value : i === 0}
-                />
-                {list.title}
-              </h5>
-            );
-          })}
-        </article>
-        <article className="formArticle">
-          <label>데이트 여부</label>
-          <input {...register("isDating")} type="checkbox" />
-          <p className="errorText">
-            {errors.isDating?.type === "required" &&
-              "구매한 물건 이름을 작성하세요."}
-          </p>
-        </article>
-
-        <article className="formArticle">
-          <label>수량</label>
-          <div className="inputWrapper">
-            <input
-              type="number"
-              {...register("quantity", { required: true, min: 1, max: 99 })}
-            />
-            개
-            <p className="errorText">
-              {errors.quantity && "수량은 최소 1개이상 입니다."}
-            </p>
-          </div>
-        </article>
-
-        <article className="formArticle">
-          <label>가격</label>
-          <div className="inputWrapper">
-            <input type="number" {...register("price", { required: true })} />원
-            <p className="errorText">
-              {errors.price?.type === "required" && "가격을 작성하세요."}
-            </p>
-          </div>
-        </article>
-
-        <article className="formArticle">
-          <label>구매날짜</label>
-          <Controller
-            control={control}
-            name={"orderDate"}
-            render={({ field }) => (
-              <div className="inputWrapper">
-                <ReactDatePicker
-                  className="input"
-                  locale={ko}
-                  placeholderText="Select date"
-                  onChange={(e) => field.onChange(e)}
-                  selected={field.value}
-                  maxDate={addDays(new Date(), 0)}
-                />{" "}
-              </div>
-            )}
-          />
-        </article>
-
-        {/* time */}
-        <article className="formArticle">
-          <label>구매시간 (Optional)</label>
-          <Controller
-            control={control}
-            name="orderTime"
-            render={({ field }) => {
+            {CategoryList.map((list: ICategoryList, i: number) => {
               return (
+                <h5 key={list.id}>
+                  <input
+                    {...register("category")}
+                    type="radio"
+                    name="category"
+                    value={list.value}
+                    id={list.id}
+                    checked={category ? category === list.value : i === 0}
+                  />
+                  {list.title}
+                </h5>
+              );
+            })}
+          </section>
+          <section>
+            <label>데이트 여부</label>
+            <input {...register("isDating")} type="checkbox" />
+            <p className="text-xs text-error-primary">
+              {errors.isDating?.type === "required" &&
+                "구매한 물건 이름을 작성하세요."}
+            </p>
+          </section>
+
+          <section>
+            <label>수량</label>
+            <div>
+              <input
+                type="number"
+                {...register("quantity", { required: true, min: 1, max: 99 })}
+              />
+              개
+              <p className="text-xs text-error-primary">
+                {errors.quantity && "수량은 최소 1개이상 입니다."}
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <label>가격</label>
+            <div>
+              <input type="number" {...register("price", { required: true })} />
+              원
+              <p className="text-xs text-error-primary">
+                {errors.price?.type === "required" && "가격을 작성하세요."}
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <label>구매날짜</label>
+            <Controller
+              control={control}
+              name={"orderDate"}
+              rules={{ required: "구매 날짜를 선택 해 주세요." }}
+              render={({ field }) => (
                 <div className="inputWrapper">
                   <ReactDatePicker
-                    selected={field.value}
+                    className="input"
+                    locale={ko}
+                    placeholderText="Select date"
                     onChange={(e) => field.onChange(e)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={60}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                  />
+                    selected={field.value}
+                    maxDate={addDays(new Date(), 0)}
+                  />{" "}
                 </div>
-              );
-            }}
-          />
-        </article>
+              )}
+            />
+          </section>
 
-        {/* url */}
-        <article className="formArticle">
-          <label>URL (Optional)</label>
-          <div className="inputWrapper">
-            <input {...register("url", { required: false })} />
+          {/* time */}
+          <section>
+            <label>구매시간 (Optional)</label>
+            <Controller
+              control={control}
+              name="orderTime"
+              render={({ field }) => {
+                return (
+                  <div>
+                    <ReactDatePicker
+                      selected={field.value}
+                      onChange={(e) => field.onChange(e)}
+                      showTimeSelect
+                      showTimeSelectOnly
+                      timeIntervals={60}
+                      timeCaption="Time"
+                      dateFormat="h:mm aa"
+                    />
+                  </div>
+                );
+              }}
+            />
+          </section>
+
+          {/* memo */}
+          <section>
+            <label>기타</label>
+            <div className="w-full mt-2 h-[80px]">
+              <textarea
+                className="w-full h-full rounded-lg border-2 border-dashed border-line-dark"
+                {...register("memo", { required: false })}
+              />
+            </div>
+          </section>
+
+          <div className="grid grid-cols-3 gap-3">
+            <div className=" col-span-1">
+              <Buttons
+                width="w-full"
+                size="small"
+                text="Reset"
+                lineColor="primary-default"
+              />
+            </div>
+            <div className="col-span-2">
+              <Buttons
+                width="w-full"
+                size="small"
+                text="Submit"
+                bgcolor="primary-default"
+              />
+            </div>
           </div>
-        </article>
-
-        <article style={{ textAlign: "right" }}>
-          <Buttons text="추가" bgcolor="#3E77B6" />
-        </article>
+        </div>
       </form>
     </>
   );
