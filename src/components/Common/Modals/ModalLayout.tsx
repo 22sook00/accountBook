@@ -29,13 +29,14 @@ const ModalLayout: FC<Props> = ({ isOpen, setIsOpen, children, title }) => {
             <div className="fixed inset-0 bg-white lg:bg-black lg:opacity-60 px-4" />
           </Transition.Child>
 
-          <div className=" p-4 fixed inset-0 overflow-y-auto">
-            <XIcon
-              onClick={handleCloseBtn}
-              className="w-6 h-6 text-text-light font-bold cursor-pointer transition hover:rotate-90"
-            />
-            <hr className="mt-4 mb-8" />
-            <div className="flex min-h-full items-center justify-center  text-center">
+          <div className=" fixed inset-0 overflow-y-auto">
+            <div className="w-full z-50 fixed top-0 p-4 border-b shadow bg-white">
+              <XIcon
+                onClick={handleCloseBtn}
+                className="w-6 h-6 text-text-light font-bold cursor-pointer transition hover:rotate-90"
+              />
+            </div>
+            <div className="p-4  flex min-h-full items-center justify-center  text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -45,7 +46,7 @@ const ModalLayout: FC<Props> = ({ isOpen, setIsOpen, children, title }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle lg:shadow-xl transition-all">
+                <Dialog.Panel className="mt-[80px] w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle lg:shadow-xl transition-all">
                   <h3 className="text-sm">{title}</h3>
                   <>{children}</>
                 </Dialog.Panel>

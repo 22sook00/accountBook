@@ -12,9 +12,9 @@ module.exports = {
 			colors: {
 				"primary-default": "#21B599",
 				"secondary-dark": "#0CA789",
-				"primary-tint": "#E9F1FC",
+				"primary-tint": "#21B599",
 				"line-default":'#E6E6E6',
-				"line-dark":'#808080',
+				"line-dark":'#818181',
 
 				"text-primary": "#515151",
 				"text-dark": "#444444",

@@ -11,6 +11,7 @@ interface Props {
   bottom?: string;
   custom?: any;
   width?: string;
+  type?: "submit" | "button" | "reset";
 }
 
 const Buttons: FC<Props> = ({
@@ -41,12 +42,13 @@ const Buttons: FC<Props> = ({
         ${width && width}
         ${
           bgcolor
-            ? ` bg-${bgcolor} hover:bg-secondary-dark text-white`
+            ? ` bg-primary-default hover:bg-secondary-dark text-white`
             : "bg-white"
         }
         ${lineColor && `border border-${lineColor} text-secondary-dark`}
         transition
         rounded-lg
+         disabled:border-line-default disabled:cursor-not-allowed disabled:border-dashed
         `}
         onClick={onclick}
         disabled={disabled ? true : false}

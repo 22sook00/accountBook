@@ -16,6 +16,7 @@ import Buttons from "../../Common/Buttons/Buttons";
 import "./addForm.css";
 import { setSubmitOrderForm } from "../../../slices/addFormSlice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
+import { DevTool } from "@hookform/devtools";
 
 interface Props {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -37,10 +38,9 @@ export const CategoryList = [
 export const defaultValues = {
   idx: 0,
   item: "",
+  price: 0,
   category: "",
   isDating: false,
-  quantity: 0,
-  price: 0,
   orderDate: new Date(),
   orderTime: new Date(),
   memo: "",
@@ -57,6 +57,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
     handleSubmit,
     control,
     reset,
+    getValues,
   } = useForm<any>({ defaultValues });
   const { category } = watch();
 
@@ -79,40 +80,85 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
     [dispatch, selectItemIdx.length, setIsOpen]
   );
 
+  const handleSelectCategory = useCallback(
+    (value: any, onChange: (value: any) => void) => {
+      onChange(value);
+    },
+    []
+  );
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="my-8 grid grid-cols-1 gap-6">
-          <section className="flex ">
-            <label>품명</label>
+        <div className="my-8 grid grid-cols-1 gap-3">
+          <section className="h-fit flex items-center ">
+            <div className="h-fit flex items-center gap-1">
+              <label>품명</label>
+              <span className="w-2 h-2 rounded-[50%] bg-gradient-to-r  from-red-800 to-error-primary" />
+            </div>
             <input
-              className="w-full border-none"
+              className={`w-[80%] border-b  ml-3 ${
+                errors.item ? "border-primary-default" : "border-line-default"
+              }`}
               {...register("item", { required: true, maxLength: 20 })}
             />
-            <p className="text-xs text-error-primary">
-              {errors.item?.type === "required" &&
-                "구매한 물건 이름을 작성하세요."}
-            </p>
           </section>
-          <section>
-            <label>카테고리</label>
 
-            {CategoryList.map((list: ICategoryList, i: number) => {
-              return (
-                <h5 key={list.id}>
-                  <input
-                    {...register("category")}
-                    type="radio"
-                    name="category"
-                    value={list.value}
-                    id={list.id}
-                    checked={category ? category === list.value : i === 0}
-                  />
-                  {list.title}
-                </h5>
-              );
-            })}
+          <section className="h-fit flex items-center ">
+            <div className="h-fit flex items-center gap-1">
+              <label>비용</label>
+              <span className="w-2 h-2 rounded-[50%] bg-gradient-to-r  from-red-800 to-error-primary" />
+            </div>
+            <input
+              step={100}
+              type="number"
+              className={`w-[80%] border-b  ml-3 ${
+                errors.item ? "border-primary-default" : "border-line-default"
+              }`}
+              {...register("price", { required: true })}
+            />
+            <p className="ml-[-20px] lg:ml-[-50px] text-sm">원</p>
           </section>
+
+          <section>
+            <div className="h-fit flex items-center gap-1">
+              <label>카테고리</label>
+              <span className="w-2 h-2 rounded-[50%] bg-gradient-to-r  from-red-800 to-error-primary" />
+            </div>
+
+            <Controller
+              control={control}
+              name={"category"}
+              rules={{ required: "카테고리를 선택 해 주세요." }}
+              render={({ field: { onChange } }) => {
+                return (
+                  <ul className="flex gap-1 mt-2">
+                    {CategoryList.map((list: ICategoryList, i: number) => {
+                      return (
+                        <li
+                          key={list.id}
+                          onClick={() => {
+                            handleSelectCategory(list.value, onChange);
+                          }}
+                        >
+                          <div
+                            className={`${
+                              category === list.value
+                                ? "border border-solid border-primary-default text-secondary-dark py-[5px] px-[9px] "
+                                : "border-2 border-dashed py-1 px-2 "
+                            }cursor-pointer rounded-md  text-xs`}
+                          >
+                            {list.value.toLocaleLowerCase()}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                );
+              }}
+            />
+          </section>
+
           <section>
             <label>데이트 여부</label>
             <input {...register("isDating")} type="checkbox" />
@@ -120,31 +166,6 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
               {errors.isDating?.type === "required" &&
                 "구매한 물건 이름을 작성하세요."}
             </p>
-          </section>
-
-          <section>
-            <label>수량</label>
-            <div>
-              <input
-                type="number"
-                {...register("quantity", { required: true, min: 1, max: 99 })}
-              />
-              개
-              <p className="text-xs text-error-primary">
-                {errors.quantity && "수량은 최소 1개이상 입니다."}
-              </p>
-            </div>
-          </section>
-
-          <section>
-            <label>가격</label>
-            <div>
-              <input type="number" {...register("price", { required: true })} />
-              원
-              <p className="text-xs text-error-primary">
-                {errors.price?.type === "required" && "가격을 작성하세요."}
-              </p>
-            </div>
           </section>
 
           <section>
@@ -206,6 +227,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
           <div className="grid grid-cols-3 gap-3">
             <div className=" col-span-1">
               <Buttons
+                type={"reset"}
                 width="w-full"
                 size="small"
                 text="Reset"
@@ -214,6 +236,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
             </div>
             <div className="col-span-2">
               <Buttons
+                type={"submit"}
                 width="w-full"
                 size="small"
                 text="Submit"
@@ -223,6 +246,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
           </div>
         </div>
       </form>
+      <DevTool control={control} />
     </>
   );
 };
