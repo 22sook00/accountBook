@@ -1,32 +1,60 @@
-import React, { FC, SetStateAction, useCallback } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import React, { FC, Fragment, SetStateAction, useCallback } from "react";
 import Buttons from "../Buttons/Buttons";
 import "./modalLayout.css";
+import { XIcon } from "@heroicons/react/outline";
 interface Props {
+  isOpen?: boolean;
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   children: React.ReactNode;
   title: string;
 }
-const ModalLayout: FC<Props> = ({ setIsOpen, children, title }) => {
+const ModalLayout: FC<Props> = ({ isOpen, setIsOpen, children, title }) => {
   const handleCloseBtn = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
+    setIsOpen(!isOpen);
+  }, [isOpen, setIsOpen]);
   return (
-    <>
-      <section className="modalContainer">
-        <div className="modalWrapper">
-          <div className="modalTextBox">
-            <h3>{title}</h3>
-            <Buttons
-              custom={{ padding: "0 10px 4px" }}
-              onclick={handleCloseBtn}
-              text={"x"}
-            />
-          </div>
+    <section className="bg-white ">
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={handleCloseBtn}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-white lg:bg-black lg:opacity-60 px-4" />
+          </Transition.Child>
 
-          {children}
-        </div>
-      </section>
-    </>
+          <div className=" p-4 fixed inset-0 overflow-y-auto">
+            <XIcon
+              onClick={handleCloseBtn}
+              className="w-6 h-6 text-text-light font-bold cursor-pointer transition hover:rotate-90"
+            />
+            <hr className="mt-4 mb-8" />
+            <div className="flex min-h-full items-center justify-center  text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle lg:shadow-xl transition-all">
+                  <h3 className="text-sm">{title}</h3>
+                  <>{children}</>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    </section>
   );
 };
 

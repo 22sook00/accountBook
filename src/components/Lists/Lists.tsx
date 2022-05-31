@@ -115,7 +115,11 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
         })}
 
       {isOpen && (
-        <ModalLayout title="구매 상세정보" setIsOpen={setIsOpen}>
+        <ModalLayout
+          title="구매 상세정보"
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        >
           <ViewDetail selectedItem={selectedItem} />
         </ModalLayout>
       )}

@@ -8,8 +8,8 @@ interface IDefaultLayout {
 const DefaultLayout: FC<IDefaultLayout> = ({ children }) => {
   return (
     <>
-      <main className="layout-style">
-        <section className="layout-section-style">{children}</section>
+      <main className="w-full">
+        <section>{children}</section>
       </main>
     </>
   );

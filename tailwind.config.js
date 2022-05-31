@@ -14,6 +14,7 @@ module.exports = {
 				"secondary-dark": "#0CA789",
 				"primary-tint": "#E9F1FC",
 				"line-default":'#E6E6E6',
+				"line-dark":'#808080',
 
 				"text-primary": "#515151",
 				"text-dark": "#444444",
