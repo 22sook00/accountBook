@@ -312,7 +312,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
               <Buttons
                 type={"reset"}
                 width="w-full"
-                size="small"
+                size="medium"
                 text="Reset"
                 lineColor="primary-default"
                 onclick={() => {
@@ -324,7 +324,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
               <Buttons
                 type={"submit"}
                 width="w-full"
-                size="small"
+                size="medium"
                 text="Submit"
                 bgcolor="primary-default"
               />

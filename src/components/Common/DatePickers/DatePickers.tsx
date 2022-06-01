@@ -36,13 +36,13 @@ const DatePickers: FC<IPickerProps> = ({
         // highlightDates={[subDays(new Date(), 7), addDays(new Date(), 7)]}
         inline
         renderCustomHeader={({ monthDate, decreaseMonth, increaseMonth }) => {
-          const setMonth = moment(monthDate).format("MMM-YY");
+          const setMonth = moment(monthDate).format("YYYY-MM");
           return (
             <div className="w-full ">
               <div className="w-full h-fit flex justify-between items-center text-base font-bold text-text-primary">
                 <>
                   {monthDate.toLocaleString("En", {
-                    month: "long",
+                    month: "short",
                     year: "2-digit",
                   })}
                   {setSelectedMonth(setMonth)}

@@ -13,5 +13,5 @@ export interface IAddItems {
   price: number;
   orderDate: Date | null | string | React.Key | any;
   orderTime?: Date | null | React.Key | any;
-  url?: string;
+  memo?: string;
 }

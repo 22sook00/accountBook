@@ -1,6 +1,7 @@
 import moment from "moment";
 import React, { FC, useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Tags from "src/components/Common/Tags/Tags";
 import { useAppSelector } from "../../../hooks/reduxHooks";
 import { IAddForm, IAddItems } from "../../../interface/formInterface/IAddForm";
 import {
@@ -17,20 +18,21 @@ import "./lists.css";
 
 interface IProps {
   selectedMonth: string;
+  isCheckDate?: boolean;
   pickerOnlyMonth?: pickerOnlyMonth;
 }
 
-const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
+const Lists: FC<IProps> = ({ pickerOnlyMonth, isCheckDate, selectedMonth }) => {
   const dispatch = useDispatch();
 
   const orderList = useAppSelector((state) => state.addOrderForm.buyItemArr);
   const orderListByMonth = useSelector(
     (state: { addOrderForm: IAddForm }) => state.addOrderForm.buyItemArrByMonth
   );
-  const onlyShowMonth = selectedMonth?.split("-")[1];
+  const orderListByDating = orderListByMonth.filter(
+    (status) => status.isDating
+  );
 
-  const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
-  const [ttlPriceByMonth, setTtlPriceByMonth] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<any>([]);
 
@@ -46,18 +48,11 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
     dispatch(setFormListByMonth(selectedMonth));
   }, [dispatch, orderList, selectedItem, selectedMonth]);
 
-  useEffect(() => {
-    if (orderListByMonth.length === 0) return;
-    const addAll = orderListByMonth?.reduce(
-      (acc: any, cur: any) => acc + +cur.price * +cur.quantity,
-      0
-    );
-    setTtlPriceByMonth(addAll);
-  }, [orderListByMonth]);
-
   const handleOpenDetailModal = (idx: number) => {
     setIsOpen(!isOpen);
-    setSelectedItem(orderListByMonth[idx]);
+    setSelectedItem(
+      isCheckDate ? orderListByDating[idx] : orderListByMonth[idx]
+    );
   };
 
   const handleDeleteClick = (idx: number, buying: any) => {
@@ -66,56 +61,91 @@ const Lists: FC<IProps> = ({ pickerOnlyMonth, selectedMonth }) => {
     );
   };
 
-  const handleDropdown = useCallback(() => {
-    setIsOpenDropdown(!isOpenDropdown);
-  }, [isOpenDropdown]);
-
   return (
-    <section className="payment-list-section-style">
-      <div className="ttl-amount-style">
-        <h1 onClick={handleDropdown}>
-          💰{+onlyShowMonth}월 총 지출내역{" "}
-          <button
-            onClick={() =>
-              console.log("dropdown later due to checking date fee")
-            }
-            className="cursor-pointer"
-          >
-            🔽
-          </button>
-        </h1>
-        <h1 className="">{formatPriceNumber(ttlPriceByMonth)}원</h1>
-      </div>
-      {orderListByMonth &&
-        orderListByMonth?.map((buying: IAddItems, idx: number) => {
-          return (
-            <article key={idx}>
-              <div className="payment-list-article-style">
-                <span>{buying?.orderDate}</span>
-                <span className="order-time">_{buying?.orderTime}</span>
-                <Buttons
-                  onclick={() => handleDeleteClick(idx, buying)}
-                  text={"삭제"}
-                  lineColor={"primary-default"}
-                  custom={{
-                    fontSize: "12px",
-                    padding: "4px 8px",
-                  }}
-                />
-                <div className="line-style" />
-                <div
-                  className="flex-style"
-                  onClick={() => handleOpenDetailModal(idx)}
+    <section className="grid grid-cols-1 gap-2 ">
+      {isCheckDate ? (
+        <>
+          {orderListByDating &&
+            orderListByDating?.map((buying: IAddItems, idx: number) => {
+              return (
+                <article
+                  key={idx}
+                  className=" px-3 py-2 border border-line-default shadow-md rounded-md"
                 >
-                  <h4>{buying.item}</h4>
-                  <h4>
-                    {formatPriceNumber(+buying.price * buying.quantity)}원
-                  </h4>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+                  <div className="h-fit flex justify-between items-center">
+                    <div className="flex gap-2 h-fit  justify-between items-center">
+                      {buying.isDating && (
+                        <span className="text-[10px]">❤️</span>
+                      )}
+                      <Tags text={buying.category.toLocaleLowerCase()} />
+                      <span className="text-[10px]">
+                        {buying?.orderDate}_{buying?.orderTime}
+                      </span>
+                    </div>
+                    <Buttons
+                      onclick={() => handleDeleteClick(idx, buying)}
+                      text={"삭제"}
+                      size="small"
+                      lineColor={"primary-default"}
+                      custom={{
+                        fontSize: "10px",
+                      }}
+                    />
+                  </div>
+                  <div className="border-b-2 border-dashed border-line-default w-full my-2" />
+                  <div
+                    className="flex justify-between text-sm"
+                    onClick={() => handleOpenDetailModal(idx)}
+                  >
+                    <h4>{buying.item}</h4>
+                    <h4>{formatPriceNumber(+buying.price)} 원</h4>
+                  </div>
+                </article>
+              );
+            })}
+        </>
+      ) : (
+        <>
+          {orderListByMonth &&
+            orderListByMonth?.map((buying: IAddItems, idx: number) => {
+              return (
+                <article
+                  key={idx}
+                  className=" px-3 py-2 border border-line-default shadow-md rounded-md"
+                >
+                  <div className="h-fit flex justify-between items-center">
+                    <div className="flex gap-2 h-fit  justify-between items-center">
+                      {buying.isDating && (
+                        <span className="text-[10px]">❤️</span>
+                      )}
+                      <Tags text={buying.category.toLocaleLowerCase()} />
+                      <span className="text-[10px]">
+                        {buying?.orderDate}_{buying?.orderTime}
+                      </span>
+                    </div>
+                    <Buttons
+                      onclick={() => handleDeleteClick(idx, buying)}
+                      text={"삭제"}
+                      size="small"
+                      lineColor={"primary-default"}
+                      custom={{
+                        fontSize: "10px",
+                      }}
+                    />
+                  </div>
+                  <div className="border-b-2 border-dashed border-line-default w-full my-2" />
+                  <div
+                    className="flex justify-between text-sm"
+                    onClick={() => handleOpenDetailModal(idx)}
+                  >
+                    <h4>{buying.item}</h4>
+                    <h4>{formatPriceNumber(+buying.price)} 원</h4>
+                  </div>
+                </article>
+              );
+            })}
+        </>
+      )}
 
       {isOpen && (
         <ModalLayout

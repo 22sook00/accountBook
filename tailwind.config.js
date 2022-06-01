@@ -23,7 +23,6 @@ module.exports = {
 
 				"tag-yellow": "#FAC710",
 				"tag-light-yellow": "#FFF446",
-
 				"tag-skyblue": "#12CDD4",
 				"tag-blue": "#70B9F0",
 				"tag-pink": "#FF6DB1",

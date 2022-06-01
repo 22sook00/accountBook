@@ -16,8 +16,8 @@
 }
 
 .react-datepicker__day--today {
-  background-color: rgb(236, 242, 253) !important;
-  /* border-radius: 50% !important; */
+  background-color: #e6e6e6 !important;
+  border-radius: 8px !important;
 }
 .react-datepicker__day {
   font-size: 10px !important;
@@ -39,8 +39,10 @@
 
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  background-color: rgb(177, 189, 220) !important;
-  /* border-radius: 50% !important; */
+  background-color: #21b599 !important;
+  color: white !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
 }
 .react-datepicker__day--highlighted {
   /*color는 가격 기준에 따라 달라진다.*/

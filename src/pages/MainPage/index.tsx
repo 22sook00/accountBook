@@ -6,6 +6,7 @@ import AddForm from "../../components/Forms/AddForm/AddForm";
 import ModalLayout from "../../components/Common/Modals/ModalLayout";
 import FixedHeader from "src/components/Main/Header/FixedHeader";
 import FixedFooter from "src/components/Main/Footer/FixedFooter";
+import moment from "moment";
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -13,18 +14,31 @@ const MainPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isCheckDate, setIsCheckDate] = useState<boolean>(false);
 
   return (
     <>
-      <FixedHeader setIsOpen={setIsOpen} />
-      <DatePickers
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        setSelectedMonth={setSelectedMonth}
-        selectedMonth={selectedMonth}
+      <FixedHeader
+        setIsOpen={setIsOpen}
+        isCheckDate={isCheckDate}
+        setIsCheckDate={setIsCheckDate}
       />
-      <Lists selectedMonth={selectedMonth} />
-      <FixedFooter />
+      <div className="px-4 pb-20">
+        <DatePickers
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          setSelectedMonth={setSelectedMonth}
+          selectedMonth={selectedMonth}
+        />
+        <Lists
+          isCheckDate={isCheckDate}
+          selectedMonth={moment(selectedMonth).format("YYYY-MM")}
+        />
+      </div>
+      <FixedFooter
+        isCheckDate={isCheckDate}
+        selectedMonth={moment(selectedMonth).format("YYYY-MM")}
+      />
 
       {isOpen && (
         <ModalLayout
