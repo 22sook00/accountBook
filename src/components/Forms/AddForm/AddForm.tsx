@@ -96,7 +96,6 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
     },
     []
   );
-  console.log(isDating);
 
   return (
     <>

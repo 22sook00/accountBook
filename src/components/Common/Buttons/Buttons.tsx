@@ -8,7 +8,6 @@ interface Props {
   bgcolor?: "primary-default" | "secondary-dark" | "error-primary";
   lineColor?: "primary-default" | "secondary-dark" | "line-default";
   text: string;
-  bottom?: string;
   custom?: any;
   width?: string;
   type?: "submit" | "button" | "reset";
@@ -21,7 +20,6 @@ const Buttons: FC<Props> = ({
   bgcolor,
   lineColor,
   text,
-  bottom,
   custom,
   width,
 }) => {
