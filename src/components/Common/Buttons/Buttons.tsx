@@ -8,7 +8,6 @@ interface Props {
   bgcolor?: "primary-default" | "secondary-dark" | "error-primary";
   lineColor?: "primary-default" | "secondary-dark" | "line-default";
   text: string;
-  bottom?: string;
   custom?: any;
   width?: string;
   type?: "submit" | "button" | "reset";
@@ -21,17 +20,16 @@ const Buttons: FC<Props> = ({
   bgcolor,
   lineColor,
   text,
-  bottom,
   custom,
   width,
 }) => {
   const button_size =
     size === "small"
-      ? ["text-base", "h-[40px] px-6", "rounded-sm"]
+      ? ["text-[10px]", "py-[2px] px-2", "rounded-sm"]
       : size === "medium"
-      ? ["text-base", "h-[51px] px-8", "rounded-[5px]"]
+      ? ["text-base", "h-[50px] px-6", "rounded-[5px]"]
       : size === "large"
-      ? ["text-base", "h-[59px] px-9", "rounded-[5px]"]
+      ? ["text-lg", "h-[59px] px-9", "rounded-[5px]"]
       : ["text-base", " w-full py-[16px] text-center", "rounded-[5px]"];
   return (
     <>

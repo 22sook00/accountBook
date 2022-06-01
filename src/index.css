@@ -34,11 +34,8 @@ p {
 section {
   width: 100%;
 }
-<<<<<<< HEAD
 textarea:active,
 textarea:focus,
-=======
->>>>>>> 0a6b97083320d2de4465f96072ee97f5f6b0d2cf
 input:active,
 input:focus {
   outline: none;

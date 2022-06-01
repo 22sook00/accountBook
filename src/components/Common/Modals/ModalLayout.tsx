@@ -15,7 +15,7 @@ const ModalLayout: FC<Props> = ({ isOpen, setIsOpen, children, title }) => {
   return (
     <section className="scrollHide">
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={handleCloseBtn}>
+        <Dialog as="div" className="relative z-50" onClose={handleCloseBtn}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

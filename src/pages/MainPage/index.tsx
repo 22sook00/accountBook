@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store";
-import Buttons from "../../components/Common/Buttons/Buttons";
-import Lists from "../../components/Lists/Lists";
+import Lists from "../../components/Main/Lists/Lists";
 import DatePickers from "../../components/Common/DatePickers/DatePickers";
 import AddForm from "../../components/Forms/AddForm/AddForm";
 import ModalLayout from "../../components/Common/Modals/ModalLayout";
+import FixedHeader from "src/components/Main/Header/FixedHeader";
+import FixedFooter from "src/components/Main/Footer/FixedFooter";
+import moment from "moment";
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -13,22 +14,33 @@ const MainPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isCheckDate, setIsCheckDate] = useState<boolean>(false);
 
-  const handleClickMoveAddForm = () => {
-    setIsOpen(true);
-  };
   return (
     <>
-      <DatePickers
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        setSelectedMonth={setSelectedMonth}
-        selectedMonth={selectedMonth}
+      <FixedHeader
+        setIsOpen={setIsOpen}
+        isCheckDate={isCheckDate}
+        setIsCheckDate={setIsCheckDate}
       />
-      <Lists selectedMonth={selectedMonth} />
-      <Buttons bottom={"bottom"} onclick={handleClickMoveAddForm} text={"+"} />
+      <div className="px-4 pb-20">
+        <DatePickers
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          setSelectedMonth={setSelectedMonth}
+          selectedMonth={selectedMonth}
+        />
+        <Lists
+          isCheckDate={isCheckDate}
+          selectedMonth={moment(selectedMonth).format("YYYY-MM")}
+        />
+      </div>
+      <FixedFooter
+        isCheckDate={isCheckDate}
+        selectedMonth={moment(selectedMonth).format("YYYY-MM")}
+      />
 
-      {isOpen ? (
+      {isOpen && (
         <ModalLayout
           isOpen={isOpen}
           title={"구매 항목을 입력하세요"}
@@ -36,8 +48,6 @@ const MainPage = () => {
         >
           <AddForm setIsOpen={setIsOpen} />
         </ModalLayout>
-      ) : (
-        <></>
       )}
     </>
   );
