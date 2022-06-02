@@ -7,6 +7,7 @@ import ModalLayout from "../../components/Common/Modals/ModalLayout";
 import FixedHeader from "src/components/Main/Header/FixedHeader";
 import FixedFooter from "src/components/Main/Footer/FixedFooter";
 import moment from "moment";
+import CategoryChart from "src/components/Main/CategoryChart/CategoryChart";
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const MainPage = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isCheckDate, setIsCheckDate] = useState<boolean>(false);
+  const [isChart, setIsChart] = useState<boolean>(false);
 
   return (
     <>
@@ -22,14 +24,20 @@ const MainPage = () => {
         setIsOpen={setIsOpen}
         isCheckDate={isCheckDate}
         setIsCheckDate={setIsCheckDate}
+        isChart={isChart}
+        setIsChart={setIsChart}
       />
       <div className="px-4 pb-20">
-        <DatePickers
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          setSelectedMonth={setSelectedMonth}
-          selectedMonth={selectedMonth}
-        />
+        {isChart ? (
+          <CategoryChart />
+        ) : (
+          <DatePickers
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            setSelectedMonth={setSelectedMonth}
+            selectedMonth={selectedMonth}
+          />
+        )}
         <Lists
           isCheckDate={isCheckDate}
           selectedMonth={moment(selectedMonth).format("YYYY-MM")}
