@@ -1,5 +1,6 @@
 import React, { FC, SetStateAction } from "react";
 import {
+  CalendarIcon,
   ChartSquareBarIcon,
   HeartIcon,
   PlusIcon,
@@ -9,11 +10,15 @@ interface IFixedHeader {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
   isCheckDate?: boolean;
   setIsCheckDate?: React.Dispatch<SetStateAction<boolean>>;
+  isChart?: boolean;
+  setIsChart?: React.Dispatch<SetStateAction<boolean>>;
 }
 const FixedHeader: FC<IFixedHeader> = ({
   setIsOpen,
   isCheckDate,
   setIsCheckDate,
+  isChart,
+  setIsChart,
 }) => {
   return (
     <header className="w-full h-16 px-4 py-2 text-text-primary flex items-center justify-end gap-4 bg-white fixed top-0 z-20 shadow-md">
@@ -21,7 +26,17 @@ const FixedHeader: FC<IFixedHeader> = ({
         onClick={() => setIsOpen(true)}
         className="cursor-pointer w-6 h-6 transition hover:rotate-90"
       />
-      <ChartSquareBarIcon className="cursor-pointer w-6 h-6 " />
+      {isChart ? (
+        <CalendarIcon
+          onClick={() => setIsChart(false)}
+          className="cursor-pointer w-6 h-6 "
+        />
+      ) : (
+        <ChartSquareBarIcon
+          onClick={() => setIsChart(true)}
+          className="cursor-pointer w-6 h-6 "
+        />
+      )}
       {isCheckDate ? (
         <>
           <svg
