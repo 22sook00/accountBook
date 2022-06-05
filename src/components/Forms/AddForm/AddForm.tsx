@@ -39,7 +39,7 @@ export const CategoryList = [
 export const defaultValues = {
   idx: 0,
   item: "",
-  price: "",
+  price: 0,
   category: "",
   isDating: false,
   orderDate: new Date(),
@@ -67,6 +67,7 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
       const formData = {
         ...data,
         idx: selectItemIdx.length,
+        price: +data.price,
         orderDate: data.orderDate
           ? moment(data.orderDate).format("YYYY-MM-DD")
           : moment().format("YYYY-MM-DD"),
