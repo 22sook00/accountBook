@@ -6,9 +6,9 @@ import Buttons from "./Buttons";
 export default {
   title: "Buttons",
   component: Buttons,
-  // argTypes: {
-  //   backgroundColor: { control: "color" },
-  // },
+  argTypes: {
+    backgroundColor: { control: "color" },
+  },
 } as ComponentMeta<typeof Buttons>;
 
 const Template: ComponentStory<typeof Buttons> = (args) => (

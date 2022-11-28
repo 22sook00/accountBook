@@ -59,11 +59,12 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
     control,
     reset,
     setValue,
-  } = useForm<any>({ defaultValues });
+  } = useForm<any>({ mode: "onBlur", ...defaultValues });
   const { category, isDating } = watch();
 
   const onSubmit: SubmitHandler<IAddItems> = useCallback(
     (data) => {
+      console.log(data);
       const formData = {
         ...data,
         idx: selectItemIdx.length,
@@ -88,16 +89,13 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
     },
     []
   );
-  useEffect(() => {
-    setValue("isDating", false);
-  }, []);
   const handleSelectDateStatus = useCallback(
     (value: boolean, onChange: (value: boolean) => void) => {
       onChange(value);
     },
     []
   );
-  // console.log(isDating);
+  console.log("errors?s", errors);
 
   return (
     <>
@@ -132,12 +130,20 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
                   ? "border-b-2 border-primary-default"
                   : "border-line-default"
               }`}
-              {...register("price", { required: true })}
+              {...register("price", {
+                required: true,
+                min: 10,
+              })}
             />
             <p className="ml-[-20px] lg:ml-[-50px] text-sm text-text-light">
               원
             </p>
           </section>
+          {errors.price && (
+            <p className="text-[10px] text-error-primary text-right">
+              Price should be over at least 10.
+            </p>
+          )}
 
           <section>
             <div className=" h-fit flex items-center gap-1">
@@ -176,6 +182,11 @@ const AddForm: FC<Props> = ({ setIsOpen }) => {
                 );
               }}
             />
+            {errors.message && (
+              <p className="text-[10px] text-error-primary">
+                {errors.category.message}
+              </p>
+            )}
           </section>
 
           <section>
