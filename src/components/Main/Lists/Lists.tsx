@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { FC, useState, useEffect, useCallback } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Tags from "src/components/Common/Tags/Tags";
 import { useAppSelector } from "../../../hooks/reduxHooks";
