@@ -7,11 +7,9 @@ interface IDefaultLayout {
 
 const DefaultLayout: FC<IDefaultLayout> = ({ children }) => {
   return (
-    <>
-      <main className="w-full">
-        <section>{children}</section>
-      </main>
-    </>
+    <main className="w-full">
+      <section>{children}</section>
+    </main>
   );
 };
 
