@@ -10,8 +10,6 @@ import moment from "moment";
 import CategoryChart from "src/components/Main/CategoryChart/CategoryChart";
 
 const MainPage = () => {
-  const dispatch = useDispatch();
-
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [selectedMonth, setSelectedMonth] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
