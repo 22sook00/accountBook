@@ -12,7 +12,6 @@ import { formatPriceNumber } from "../../../utils/numberFormatter";
 import Buttons from "../../Common/Buttons/Buttons";
 import { pickerOnlyMonth } from "../../Common/DatePickers/DatePickers";
 import ModalLayout from "../../Common/Modals/ModalLayout";
-import EditForm from "../../Forms/EditForm/EditForm";
 import ViewDetail from "../../VeiwDetail/ViewDetail";
 import "./lists.css";
 
