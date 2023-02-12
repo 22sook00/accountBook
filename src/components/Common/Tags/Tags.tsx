@@ -13,7 +13,6 @@ const Tags: FC<ITag> = ({ text }) => {
       : text === "transportation"
       ? "tag-light-yellow"
       : "tag-pink";
-  // console.log("tagColor?", tagColor);
   return (
     <div
       className={` 

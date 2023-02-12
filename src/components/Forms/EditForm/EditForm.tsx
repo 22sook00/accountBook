@@ -5,7 +5,6 @@ import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { IAddItems } from "../../../interface/formInterface/IAddForm";
 import Buttons from "../../Common/Buttons/Buttons";
-import { CategoryList, defaultValues, ICategoryList } from "../AddForm/AddForm";
 interface Props {}
 
 const EditForm: FC<Props> = ({}) => {
